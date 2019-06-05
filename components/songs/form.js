@@ -1,7 +1,16 @@
 import React from 'react';
 import {
-    Form,
-    Input
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete
 } from 'antd';
 
 class SongForm extends React.Component {
@@ -19,10 +28,37 @@ class SongForm extends React.Component {
       },
     };
 
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
+      },
+    };
+
     return (
       <Form {...formItemLayout} >
         <Form.Item label="Title">
-          <Input />
+          {
+            getFieldDecorator('title', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input songs title'
+                }
+              ]
+            })(<Input />)
+          }
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
         </Form.Item>
       </Form>
     );
