@@ -17,7 +17,7 @@ class MainLayout extends React.Component {
             }}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={'1'}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Icon type="user" />
               <span className="nav-text">nav 1</span>

@@ -10,7 +10,8 @@ import {
   Col,
   Checkbox,
   Button,
-  AutoComplete
+  AutoComplete,
+  Upload
 } from 'antd';
 
 class SongForm extends React.Component {
@@ -41,6 +42,15 @@ class SongForm extends React.Component {
       },
     };
 
+    const uploadProps = {
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      onChange({ file, fileList}) {
+        if(file.status !== 'uploading') {
+          console.log(file, fileList);
+        }
+      }
+    };
+
     return (
       <Form {...formItemLayout} >
         <Form.Item label="Title">
@@ -54,6 +64,13 @@ class SongForm extends React.Component {
               ]
             })(<Input />)
           }
+        </Form.Item>
+        <Form.Item label="Upload">
+          <Upload {...uploadProps}>
+            <Button>
+              <Icon type="upload" />Upload
+            </Button>
+          </Upload>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
