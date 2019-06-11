@@ -43,7 +43,9 @@ class SongForm extends React.Component {
     };
 
     const uploadProps = {
-      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      //action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      action: 'http://lavender.test/api/songs/upload',
+      name: 'song',
       onChange({ file, fileList}) {
         if(file.status !== 'uploading') {
           console.log(file, fileList);
