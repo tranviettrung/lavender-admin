@@ -3,13 +3,28 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import 'antd/dist/antd.css';
 
 class LoginForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.enterLoading = this.enterLoading.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     state = {
         loading: false,
+        email: '',
+        password: ''
     };
 
-    enterLoading = () => {
+    enterLoading() {
         this.setState({ loading: true });
     };
+
+    onSubmit(e){
+        e.preventDefault();
+
+        const { email, password } = this.state;
+        
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;

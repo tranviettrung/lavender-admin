@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 
-import LoginForm from '../../components/auth/form/LoginForm';
+import LoginForm from '../../components/auth/form/loginForm';
 
 import '../../static/less/login.less';
 
