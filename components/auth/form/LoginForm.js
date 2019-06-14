@@ -1,5 +1,9 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { connect } from 'react-redux';
+import { PropsTypes } from 'prop-types';
+
+import { login } from '../../../actions/authActions';
 import 'antd/dist/antd.css';
 
 class LoginForm extends React.Component {
@@ -15,6 +19,10 @@ class LoginForm extends React.Component {
         password: ''
     };
 
+    static propsTypes = {
+
+    }
+
     enterLoading() {
         this.setState({ loading: true });
     };
@@ -27,38 +35,23 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
-
         return (
             <Form className="login-form" >
                 <Form.Item>
-                    {getFieldDecorator('email', {
-                        rules: [{ required: true, message: 'Please input your email'}]
-                    })(
-                        <Input
-                            prefix={<Icon type="user" />}
-                            placeholder="Email"
-                        />
-                    )}
+                    <Input
+                        prefix={<Icon type="user" />}
+                        placeholder="Email"
+                    />
                 </Form.Item>
                 <Form.Item>
-                    {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }]
-                    })(
-                        <Input
-                            prefix={<Icon type="lock" />}
-                            type="password"
-                            placeholder="Password"
-                        />
-                    )}
+                    <Input
+                        prefix={<Icon type="lock" />}
+                        type="password"
+                        placeholder="Password"
+                    />
                 </Form.Item>
                 <Form.Item>
-                    {getFieldDecorator('remember', {
-                        valuePropName: 'checked',
-                        initialValue: true
-                    })(
-                        <Checkbox>Remember me</Checkbox>
-                    )}
+                    <Checkbox>Remember me</Checkbox>
                     <Button type="primary" htmlType="submit" block={true} loading={this.state.loading} onClick={this.enterLoading}>
                         Login
                     </Button>
@@ -68,4 +61,4 @@ class LoginForm extends React.Component {
     }
 }
 
-export default Form.create({ name: 'login_form'})(LoginForm);
+export default connect(null, { login })(LoginForm);
