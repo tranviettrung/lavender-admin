@@ -3,7 +3,7 @@ import {
 } from '../actions/authActions';
 
 const initialState = {
-    token: localStorage.getItem('token'),
+    token: null,
     isAuthenticated: null,
     user: null,
 };
@@ -15,5 +15,7 @@ export default function(state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
             }
+        default:
+            return state;
     }
 }
