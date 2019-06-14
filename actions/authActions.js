@@ -10,7 +10,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
  */
 export const login = ({email, password}) => dispatch => {
   const userCredential = JSON.stringify({email, password});
-  axios.post('/api/login', userCredential)
+  axios.post('/login', userCredential)
     .then(res => {
       
     })

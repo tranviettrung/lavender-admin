@@ -31,12 +31,14 @@ class LoginForm extends React.Component {
         e.preventDefault();
 
         const { email, password } = this.state;
-        
+        const user = { email, password };
+
+        this.props.login(user);
     }
 
     render() {
         return (
-            <Form className="login-form" >
+            <Form className="login-form" onSubmit={this.onSubmit} >
                 <Form.Item>
                     <Input
                         prefix={<Icon type="user" />}
