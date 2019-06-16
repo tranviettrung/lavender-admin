@@ -1,22 +1,20 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import redirectTo from '../lib/redirectTo';
-import axios from 'axios';
 import withReduxStore from '../lib/with-redux-store';
 import { Provider } from 'react-redux';
+import cookies from 'next-cookies';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
-
-    // setting default config
-    axios.defaults.baseURL = 'https://lavender.test/api';
+    const c = cookies(ctx);
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    if(ctx.pathname != '/auth/login') {
+    if(!c.token) {
       redirectTo('/auth/login', { res: ctx.res, status: 301 });
     }
 

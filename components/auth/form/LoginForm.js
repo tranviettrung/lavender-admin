@@ -10,6 +10,7 @@ class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.enterLoading = this.enterLoading.bind(this);
+        this.exitLoading = this.exitLoading.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -27,6 +28,14 @@ class LoginForm extends React.Component {
         this.setState({ loading: true });
     };
 
+    exitLoading() {
+      this.setState({loading: false });
+    }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
     onSubmit(e){
         e.preventDefault();
 
@@ -43,6 +52,8 @@ class LoginForm extends React.Component {
                     <Input
                         prefix={<Icon type="user" />}
                         placeholder="Email"
+                        onChange={this.onChange}
+                        name="email"
                     />
                 </Form.Item>
                 <Form.Item>
@@ -50,6 +61,8 @@ class LoginForm extends React.Component {
                         prefix={<Icon type="lock" />}
                         type="password"
                         placeholder="Password"
+                        onChange={this.onChange}
+                        name="password"
                     />
                 </Form.Item>
                 <Form.Item>
