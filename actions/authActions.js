@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from '../lib/axios-instance';
+import cookie from 'js-cookie';
 
 /*
  * action types 
@@ -12,6 +13,7 @@ export const login = ({email, password}) => dispatch => new Promise((resolve, re
   const userCredential = JSON.stringify({email, password});
   axios.post('/login', userCredential)
     .then(res => {
+      cookie.set('token', res.data.token);
       resolve();
     })
     .catch(err => {

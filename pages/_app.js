@@ -14,7 +14,7 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    if(!c.token) {
+    if(!c.token && ctx.pathname != '/auth/login') {
       redirectTo('/auth/login', { res: ctx.res, status: 301 });
     }
 
