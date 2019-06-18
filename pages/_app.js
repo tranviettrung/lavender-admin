@@ -2,7 +2,7 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import redirectTo from '../lib/redirectTo';
 import withReduxStore from '../lib/with-redux-store';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import cookies from 'next-cookies';
 
 class MyApp extends App {
@@ -19,6 +19,13 @@ class MyApp extends App {
     }
 
     return { pageProps };
+  }
+
+  componentWillMount() {
+    let store = this.props.reduxStore.getState();
+    if(!store.user) {
+      
+    }
   }
   
   render() {
