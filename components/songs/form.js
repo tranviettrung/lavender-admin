@@ -1,4 +1,5 @@
 import React from 'react';
+import cookie from 'js-cookie';
 import {
   Form,
   Input,
@@ -16,8 +17,6 @@ import {
 
 class SongForm extends React.Component {
   render() {
-    const { getFieldDecorator } = this.props.form;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -42,30 +41,24 @@ class SongForm extends React.Component {
       },
     };
 
+    const token = cookie.get('token');
     const uploadProps = {
-      //action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
       action: 'http://lavender.test/api/songs/upload',
       name: 'song',
       onChange({ file, fileList}) {
         if(file.status !== 'uploading') {
           console.log(file, fileList);
         }
+      },
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
       }
     };
 
     return (
       <Form {...formItemLayout} >
         <Form.Item label="Title">
-          {
-            getFieldDecorator('title', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input songs title'
-                }
-              ]
-            })(<Input />)
-          }
+          <Input />
         </Form.Item>
         <Form.Item label="Upload">
           <Upload {...uploadProps}>
@@ -84,4 +77,4 @@ class SongForm extends React.Component {
   }
 }
 
-export default Form.create({ name: 'songForm'})(SongForm);
+export default SongForm;

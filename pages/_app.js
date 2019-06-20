@@ -2,8 +2,9 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import redirectTo from '../lib/redirectTo';
 import withReduxStore from '../lib/with-redux-store';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import cookies from 'next-cookies';
+import { loadAuthUser } from '../actions/authActions';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -22,9 +23,12 @@ class MyApp extends App {
   }
 
   componentWillMount() {
-    let store = this.props.reduxStore.getState();
-    if(!store.user) {
-      
+    let store = this.props.reduxStore;
+
+    if(!store.getState().user) {
+      store.dispatch(loadAuthUser()).catch(() => {
+        
+      });
     }
   }
   
