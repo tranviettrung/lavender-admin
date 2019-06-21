@@ -34,6 +34,10 @@ class MainLayout extends React.Component {
               <Icon type="user" />
               <Link href="/songs"><span className="nav-text" >Songs</span></Link>
             </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="user" />
+              <Link href="/songs/create"><span className="nav-text" >Songs create</span></Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: 200 }}>

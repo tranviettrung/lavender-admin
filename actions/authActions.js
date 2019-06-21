@@ -1,4 +1,4 @@
-import axios from '../lib/axios-instance';
+import axios from 'axios';
 import cookie from 'js-cookie';
 
 /*
@@ -6,6 +6,7 @@ import cookie from 'js-cookie';
  */
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOAD_AUTH_USER = 'LOAD_AUTH_USER';
+export const REAUTHENTICATE = 'REAUTHENTICATE';
 
 /*
  * action creators
@@ -21,6 +22,13 @@ export const login = ({email, password}) => dispatch => new Promise((resolve, re
       reject();
     });
 });
+
+export const reauthenticate = (token) => {
+  return {
+    type: REAUTHENTICATE,
+    payload: token
+  }
+}
 
 export const loadAuthUser = () => dispatch => new Promise((resolve, reject) => {
   axios.get('/user')

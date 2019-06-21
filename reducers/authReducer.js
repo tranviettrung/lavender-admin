@@ -1,12 +1,11 @@
 import {
   LOGIN_SUCCESS,
   LOAD_AUTH_USER,
+  REAUTHENTICATE
 } from '../actions/authActions';
-import cookie from 'js-cookie';
 
-let token = cookie.get('token');
 const initialState = {
-  token: token,
+  token: null,
   isAuthenticated: null,
   user: null,
 };
@@ -22,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: action.payload
+      }
+    case REAUTHENTICATE:
+      return {
+        ...state,
+        token: action.payload
       }
     default:
       return state;

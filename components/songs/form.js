@@ -15,7 +15,13 @@ import {
   Upload
 } from 'antd';
 
+const Dragger = Upload.Dragger;
+
 class SongForm extends React.Component {
+  state = {
+    selectedSong: null
+  }
+
   render() {
     const formItemLayout = {
       labelCol: {
@@ -45,13 +51,17 @@ class SongForm extends React.Component {
     const uploadProps = {
       action: 'http://lavender.test/api/songs/upload',
       name: 'song',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      },
+      multiple: true,
       onChange({ file, fileList}) {
         if(file.status !== 'uploading') {
           console.log(file, fileList);
         }
       },
-      headers: {
-        'Authorization': token ? `Bearer ${token}` : '',
+      onPreview(file) {
+        this.setState({selectedSong: file.response.uid});
       }
     };
 
@@ -61,11 +71,16 @@ class SongForm extends React.Component {
           <Input />
         </Form.Item>
         <Form.Item label="Upload">
-          <Upload {...uploadProps}>
-            <Button>
-              <Icon type="upload" />Upload
-            </Button>
-          </Upload>
+          <Dragger {...uploadProps}>
+            <p className="ant-upload-drag-icon">
+              <Icon type="inbox" />
+            </p>
+            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+              band files
+            </p>
+          </Dragger>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
