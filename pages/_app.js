@@ -15,33 +15,26 @@ import { clientConfig } from '../lib/client';
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     const c = nextCookies(ctx);
+    const token = c.token;
 
-    if(!c.token && ctx.pathname != '/auth/login') {
+    if(!token && ctx.pathname != '/auth/login') {
       redirectTo('/auth/login', { res: ctx.res, status: 301 });
     }
 
-    ctx.store.dispatch(reauthenticate(c.token));
+    let store = ctx.store.getState();
+
+    if(!store.auth.token) {
+      ctx.store.dispatch(reauthenticate(token));
+    }
+
+    clientConfig(token);
+    if(!store.auth.user) {
+      await ctx.store.dispatch(loadAuthUser());
+    }
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     return {pageProps};
-  }
-
-  componentWillMount() {
-    if(process.browser) {
-      let store = this.props.store;
-
-      store.dispatch(reauthenticate(cookies.get('token')));
-
-      const token = store.getState().auth.token;
-      clientConfig(token);
-      
-      if(!store.getState().auth.user) {
-        store.dispatch(loadAuthUser()).catch(() => {
-
-        });
-      }
-    }
   }
   
   render() {

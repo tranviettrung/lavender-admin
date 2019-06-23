@@ -19,8 +19,26 @@ const Dragger = Upload.Dragger;
 
 class SongForm extends React.Component {
   state = {
-    selectedSong: null
+    name: null,
+    lyric: null,
+    selectedSong: null,
+    uploadedSongs: [],
   }
+
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({uploadedSongs: this.props.uploadedSongs}) 
+  }
+
+  handleSubmit(e) {
+    e.preventSubmit();
+    console.log('submit');
+    console.log(this.state);
+  };
 
   render() {
     const formItemLayout = {
@@ -55,18 +73,14 @@ class SongForm extends React.Component {
         'Authorization': token ? `Bearer ${token}` : '',
       },
       multiple: true,
-      onChange({ file, fileList}) {
-        if(file.status !== 'uploading') {
-          console.log(file, fileList);
-        }
-      },
-      onPreview(file) {
-        this.setState({selectedSong: file.response.uid});
+      defaultFileList: this.state.uploadedSongs,
+      onPreview: file => {
+        this.setState({selectedSong: file.uid});
       }
     };
 
     return (
-      <Form {...formItemLayout} >
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Title">
           <Input />
         </Form.Item>
@@ -81,6 +95,9 @@ class SongForm extends React.Component {
               band files
             </p>
           </Dragger>
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Input.TextArea rows={4} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">

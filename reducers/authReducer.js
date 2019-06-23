@@ -16,6 +16,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: true,
+        token: action.token,
+        user: action.user
       }
     case LOAD_AUTH_USER:
       return {

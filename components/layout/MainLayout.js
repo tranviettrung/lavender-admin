@@ -45,7 +45,7 @@ class MainLayout extends React.Component {
             {avatar}
           </Header>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-            <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
+            <div style={{ padding: 24, background: '#fff' }}>
               { this.props.children }
             </div>
           </Content>

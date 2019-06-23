@@ -15,7 +15,12 @@ export const login = ({email, password}) => dispatch => new Promise((resolve, re
   const userCredential = JSON.stringify({email, password});
   axios.post('/login', userCredential)
     .then(res => {
-      cookie.set('token', res.data.token,  { expires: 2 });
+      cookie.set('token', res.data.token,  { expires: 365 });
+      dispatch({
+        type: LOGIN_SUCCESS,
+        user: res.data.user,
+        token: res.data.token
+      })
       resolve();
     })
     .catch(err => {
@@ -30,16 +35,18 @@ export const reauthenticate = (token) => {
   }
 }
 
-export const loadAuthUser = () => dispatch => new Promise((resolve, reject) => {
-  axios.get('/user')
+export const loadAuthUser = () => async dispatch => {
+  await axios.get('/user')
     .then(res => {
       dispatch({
         type: LOAD_AUTH_USER,
         payload: res.data,
       });
-      resolve();
+      // resolve();
+      console.log('success load user');
     })
     .catch(err => {
-      reject();
+      // reject();
+      console.log('err load user');
     });
-});
+};
