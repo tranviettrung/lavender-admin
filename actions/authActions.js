@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cookie from 'js-cookie';
+import { clientConfig } from '../lib/client';
 
 /*
  * action types 
@@ -16,6 +17,7 @@ export const login = ({email, password}) => dispatch => new Promise((resolve, re
   axios.post('/login', userCredential)
     .then(res => {
       cookie.set('token', res.data.token,  { expires: 365 });
+      clientConfig(res.data.token);
       dispatch({
         type: LOGIN_SUCCESS,
         user: res.data.user,

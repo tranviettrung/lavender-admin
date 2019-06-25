@@ -3,7 +3,6 @@ import App, { Container } from 'next/app';
 import { Provider } from 'react-redux';
 import nextCookies from 'next-cookies';
 import withRedux from 'next-redux-wrapper';
-import cookies from 'js-cookie';
 
 import { loadAuthUser, reauthenticate } from '../actions/authActions';
 import { initializeStore } from '../store';
@@ -21,22 +20,36 @@ class MyApp extends App {
       redirectTo('/auth/login', { res: ctx.res, status: 301 });
     }
 
-    let store = ctx.store.getState();
+    if(token) {
+      let store = ctx.store.getState();
 
-    if(!store.auth.token) {
-      ctx.store.dispatch(reauthenticate(token));
-    }
+      if(!store.auth.token) {
+        ctx.store.dispatch(reauthenticate(token));
+      }
 
-    clientConfig(token);
-    if(!store.auth.user) {
-      await ctx.store.dispatch(loadAuthUser());
+      if(!process.browser) {
+        clientConfig(token);
+      }
+      
+      if(!store.auth.user) {
+        await ctx.store.dispatch(loadAuthUser());
+      }
     }
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     return {pageProps};
   }
-  
+
+  constructor(props) {
+    super(props);
+
+    if(process.browser) {
+      let store = this.props.store.getState();
+      clientConfig(store.auth.token);
+    }
+  }
+
   render() {
     const { Component, pageProps, store } = this.props;
 

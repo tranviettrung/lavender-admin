@@ -40,6 +40,14 @@ class SongForm extends React.Component {
     console.log(this.state);
   };
 
+  setSelectedSong(id) {
+    this.setState({selectedSong: id})
+  }
+
+  onChangeInput(event) {
+    this.setState({[event.target.id]: event.target.value});
+  }
+
   render() {
     const formItemLayout = {
       labelCol: {
@@ -65,6 +73,12 @@ class SongForm extends React.Component {
       },
     };
 
+    let selectedSongLabel = this.state.uploadedSongs.map(uploadedSong => {
+      if(uploadedSong.uid === this.state.selectedSong) {
+        return uploadedSong.path;
+      }
+    });
+
     const token = cookie.get('token');
     const uploadProps = {
       action: 'http://lavender.test/api/songs/upload',
@@ -75,7 +89,7 @@ class SongForm extends React.Component {
       multiple: true,
       defaultFileList: this.state.uploadedSongs,
       onPreview: file => {
-        this.setState({selectedSong: file.uid});
+        this.setSelectedSong(file.uid);
       }
     };
 
@@ -91,12 +105,11 @@ class SongForm extends React.Component {
             </p>
             <p className="ant-upload-text">Click or drag file to this area to upload</p>
             <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-              band files
+              {selectedSongLabel}
             </p>
           </Dragger>
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
+        <Form.Item label="Lyric">
           <Input.TextArea rows={4} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
