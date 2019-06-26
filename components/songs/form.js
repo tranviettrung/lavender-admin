@@ -1,5 +1,6 @@
 import React from 'react';
 import cookie from 'js-cookie';
+import axios from 'axios';
 import {
   Form,
   Input,
@@ -19,7 +20,7 @@ const Dragger = Upload.Dragger;
 
 class SongForm extends React.Component {
   state = {
-    name: null,
+    title: null,
     lyric: null,
     selectedSong: null,
     uploadedSongs: [],
@@ -28,16 +29,26 @@ class SongForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
   }
 
   componentWillMount() {
     this.setState({uploadedSongs: this.props.uploadedSongs}) 
   }
 
-  handleSubmit(e) {
-    e.preventSubmit();
-    console.log('submit');
-    console.log(this.state);
+  handleSubmit(event) {
+    event.preventDefault();
+    axios.post('/songs', {
+      title: this.state.title,
+      lyric: this.state.lyric,
+      selected_song: this.state.selectedSong
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
   };
 
   setSelectedSong(id) {
@@ -45,7 +56,7 @@ class SongForm extends React.Component {
   }
 
   onChangeInput(event) {
-    this.setState({[event.target.id]: event.target.value});
+    this.setState({[event.target.name]: event.target.value});
   }
 
   render() {
@@ -96,7 +107,7 @@ class SongForm extends React.Component {
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Title">
-          <Input />
+          <Input name="title" onChange={this.onChangeInput} />
         </Form.Item>
         <Form.Item label="Upload">
           <Dragger {...uploadProps}>
@@ -110,7 +121,7 @@ class SongForm extends React.Component {
           </Dragger>
         </Form.Item>
         <Form.Item label="Lyric">
-          <Input.TextArea rows={4} />
+          <Input.TextArea name="lyric" onChange={this.onChangeInput} rows={4} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
