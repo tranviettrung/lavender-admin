@@ -41,7 +41,7 @@ class SongForm extends React.Component {
     axios.post('/songs', {
       title: this.state.title,
       lyric: this.state.lyric,
-      selected_song: this.state.selectedSong
+      selected_upload: this.state.selectedSong
     })
     .then(function(response) {
       console.log(response);
