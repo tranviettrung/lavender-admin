@@ -125,7 +125,7 @@ class SongForm extends React.Component {
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+            Create
           </Button>
         </Form.Item>
       </Form>

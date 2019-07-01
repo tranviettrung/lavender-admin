@@ -10,10 +10,10 @@ class Index extends React.Component {
   }
 
   static async getInitialProps({ Component, ctx }) {
-    const response = await axios.get('/songs/upload');
+    const response = await axios.get('/songs/init-data');
 
     return {
-      uploadedSongs: response.data.data
+      uploadedSongs: response.data.uploaded_files
     };
   }
 
