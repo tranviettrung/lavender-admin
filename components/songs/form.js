@@ -24,6 +24,7 @@ class SongForm extends React.Component {
     lyric: null,
     selectedSong: null,
     uploadedSongs: [],
+    loading: false,
   }
 
   constructor(props) {
@@ -36,18 +37,29 @@ class SongForm extends React.Component {
     this.setState({uploadedSongs: this.props.uploadedSongs}) 
   }
 
+  enterLoading() {
+    this.setState({loading: true});
+  }
+
+  exitLoading() {
+    this.setState({loading: false})
+  }
+
   handleSubmit(event) {
     event.preventDefault();
+    this.enterLoading();
+
     axios.post('/songs', {
       title: this.state.title,
       lyric: this.state.lyric,
       selected_upload: this.state.selectedSong
     })
-    .then(function(response) {
+    .then(response => {
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(error => {
       console.log(error);
+      this.exitLoading();
     });
   };
 
@@ -124,7 +136,7 @@ class SongForm extends React.Component {
           <Input.TextArea name="lyric" onChange={this.onChangeInput} rows={4} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={this.state.loading}>
             Create
           </Button>
         </Form.Item>

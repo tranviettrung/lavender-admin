@@ -1,13 +1,18 @@
 import React from 'react';
 import { Layout, Menu, Icon, Avatar, Spin } from 'antd';
 import { connect } from 'react-redux';
-import Link from 'next/link';
+
+import MenuLeft from '../../components/layout/MenuLeft'
 
 import 'antd/dist/antd.css';
 const { Header, Content, Footer, Sider } = Layout;
 
 
 class MainLayout extends React.Component {
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+
   render() {
     let user = this.props.user;
     let avatar;
@@ -29,16 +34,7 @@ class MainLayout extends React.Component {
             }}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <Link href="/songs"><span className="nav-text" >Songs</span></Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="user" />
-              <Link href="/songs/create"><span className="nav-text" >Songs create</span></Link>
-            </Menu.Item>
-          </Menu>
+          <MenuLeft />
         </Sider>
         <Layout style={{ marginLeft: 200 }}>
           <Header style={{ background: '#fff', padding: 0 }} >
